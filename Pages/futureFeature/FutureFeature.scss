@@ -1,0 +1,25 @@
+.card {
+  border: none;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.card-title {
+  color: #007bff;
+}
+
+.card-text {
+  flex-grow: 1;
+}
+
+.display-4 {
+  font-weight: 300;
+}
+
+.lead {
+  font-size: 1.25rem;
+}
