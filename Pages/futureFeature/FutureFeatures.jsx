@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "./FutureFeature.scss";
+import Header from "../../componet/Header/Header";
 
 function FutureFeatures() {
   const features = [
@@ -48,32 +49,35 @@ function FutureFeatures() {
   ];
 
   return (
-    <div className="container py-4">
-      <h1 className="display-4 mb-4 text-center">Future Features</h1>
-      <p className="lead text-center mb-5">
-        We are constantly working to improve our application. Here are some
-        exciting features that we have planned for the future:
-      </p>
+    <>
+      <Header />
+      <div className="container py-4">
+        <h1 className="display-4 mb-4 text-center">Future Features</h1>
+        <p className="lead text-center mb-5">
+          We are constantly working to improve our application. Here are some
+          exciting features that we have planned for the future:
+        </p>
 
-      <div className="row">
-        {features.map((feature, index) => (
-          <div className="col-md-4 mb-4" key={index}>
-            <div className="card h-100">
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">
-                  {index + 1}. {feature.title}
-                </h5>
-                <p className="card-text">{feature.description}</p>
+        <div className="row">
+          {features.map((feature, index) => (
+            <div className="col-md-4 mb-4" key={index}>
+              <div className="card h-100">
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title">
+                    {index + 1}. {feature.title}
+                  </h5>
+                  <p className="card-text">{feature.description}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <p className="lead text-center mt-5">
-        Stay tuned for these updates and more!
-      </p>
-    </div>
+        <p className="lead text-center mt-5">
+          Stay tuned for these updates and more!
+        </p>
+      </div>
+    </>
   );
 }
 

@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Stage, Layer, Rect, Text, Transformer } from "react-konva";
+import Header from "../../componet/Header/Header";
 import { SketchPicker } from "react-color";
 import { v4 as uuidv4 } from "uuid";
-import "./canvasPage.scss";
+import "./CanvasPage.scss";
 
 const emotions = {
   happy: [
@@ -33,20 +34,20 @@ const CanvasPage = ({ match }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
-  const [bibleVerse, setBibleVerse] = useState("");
+  const [bibleVerses, setBibleVerses] = useState([]);
+  const [currentVerseIndex, setCurrentVerseIndex] = useState(0);
   const [rectColor, setRectColor] = useState("#ff0000");
 
   useEffect(() => {
-    if (sessionStorage.getItem("emotions") == null) {
-      const emotion = prompt(
-        "How are you feeling today? (happy, sad, anxious)"
-      );
-      if (emotion && emotions[emotion.toLowerCase()]) {
-        sessionStorage.setItem("emotions", emotion);
-        setBibleVerse(emotions[emotion.toLowerCase()]);
-      }
-    } else {
-      setBibleVerse(emotions[sessionStorage.getItem("emotions")]);
+    const storedEmotion = sessionStorage.getItem("emotions");
+    const emotion = storedEmotion
+      ? storedEmotion.toLowerCase()
+      : prompt("How are you feeling today? (happy, sad, anxious)");
+
+    if (emotion && emotions[emotion]) {
+      sessionStorage.setItem("emotions", emotion);
+      setBibleVerses(emotions[emotion]);
+      setCurrentVerseIndex(0);
     }
 
     const fetchItems = () => {
@@ -176,6 +177,15 @@ const CanvasPage = ({ match }) => {
     setRectColor(color.hex);
   };
 
+  const handleRemoveVerse = () => {
+    const confirmRemove = window.confirm(
+      "Are you sure you want to remove the verse?"
+    );
+    if (confirmRemove) {
+      setBibleVerses([]);
+    }
+  };
+
   useEffect(() => {
     if (selectedId) {
       const selectedNode = stageRef.current.findOne(`#${selectedId}`);
@@ -188,76 +198,89 @@ const CanvasPage = ({ match }) => {
   }, [selectedId]);
 
   return (
-    <div className="canvas-page">
-      <SketchPicker color={rectColor} onChangeComplete={handleColorChange} />
-      <div className="canvas-buttons">
-        <button onClick={handleAddRect}>Add Rectangle</button>
-        <button onClick={handleAddText}>Add Text</button>
-      </div>
-      <Stage
-        width={window.innerWidth}
-        height={window.innerHeight}
-        draggable={false}
-        ref={stageRef}
-        x={stagePos.x}
-        y={stagePos.y}
-        className={dragging ? "stage dragging" : "stage"}
-      >
-        <Layer>
-          <Text
-            text="Drag and scroll to explore the infinite canvas!"
-            fontSize={15}
-            x={10}
-            y={10}
-            className="text"
-          />
-          <Text
-            text={bibleVerse}
-            fontSize={20}
-            x={10}
-            y={40}
-            className="bible-verse"
-          />
-          {items.map((item, i) =>
-            item.type === "rect" ? (
-              <Rect
-                key={i}
-                id={item.id}
-                x={item.x}
-                y={item.y}
-                width={item.width}
-                height={item.height}
-                fill={item.fill}
-                draggable
-                onDragStart={handleDragStart}
-                onDragEnd={(e) => handleDragEnd(e, item.id)}
-                onClick={() => handleSelect(item.id)}
-              />
-            ) : (
+    <>
+      <Header />
+      <div className="canvas-page">
+        <SketchPicker color={rectColor} onChangeComplete={handleColorChange} />
+        <div className="canvas-buttons">
+          <button onClick={handleAddRect}>Add Rectangle</button>
+          <button onClick={handleAddText}>Add Text</button>
+          <button onClick={handleRemoveVerse}>Remove Verse</button>
+        </div>
+        <Stage
+          width={window.innerWidth}
+          height={window.innerHeight}
+          draggable={false}
+          ref={stageRef}
+          x={stagePos.x}
+          y={stagePos.y}
+          className={dragging ? "stage dragging" : "stage"}
+        >
+          <Layer>
+            <Rect
+              x={0}
+              y={0}
+              width={window.innerWidth}
+              height={window.innerHeight}
+              fillPatternScale={{ x: 1, y: 1 }}
+            />
+            <Text
+              text="Drag and scroll to explore the infinite canvas!"
+              fontSize={15}
+              x={10}
+              y={10}
+              className="text"
+            />
+            {bibleVerses.length > 0 && (
               <Text
-                key={i}
-                id={item.id}
-                x={item.x}
-                y={item.y}
-                text={item.text}
-                fontSize={item.fontSize}
-                draggable
-                onDragStart={handleDragStart}
-                onDragEnd={(e) => handleDragEnd(e, item.id)}
-                onClick={() => handleSelect(item.id)}
+                text={bibleVerses[currentVerseIndex]}
+                fontSize={20}
+                x={10}
+                y={40}
+                className="bible-verse"
               />
-            )
-          )}
-          <Transformer ref={transformerRef} />
-        </Layer>
-      </Stage>
-      <textarea
-        ref={textInputRef}
-        className="textarea"
-        onChange={handleTextareaChange}
-        onBlur={handleTextareaBlur}
-      />
-    </div>
+            )}
+            {items.map((item, i) =>
+              item.type === "rect" ? (
+                <Rect
+                  key={i}
+                  id={item.id}
+                  x={item.x}
+                  y={item.y}
+                  width={item.width}
+                  height={item.height}
+                  fill={item.fill}
+                  draggable
+                  onDragStart={handleDragStart}
+                  onDragEnd={(e) => handleDragEnd(e, item.id)}
+                  onClick={() => handleSelect(item.id)}
+                />
+              ) : item.type === "text" ? (
+                <Text
+                  key={i}
+                  id={item.id}
+                  x={item.x}
+                  y={item.y}
+                  text={item.text}
+                  fontSize={item.fontSize}
+                  draggable
+                  onDragStart={handleDragStart}
+                  onDragEnd={(e) => handleDragEnd(e, item.id)}
+                  onClick={() => handleSelect(item.id)}
+                />
+              ) : null
+            )}
+            <Transformer ref={transformerRef} />
+          </Layer>
+        </Stage>
+        <textarea
+          ref={textInputRef}
+          className="textarea"
+          onChange={handleTextareaChange}
+          onBlur={handleTextareaBlur}
+        />
+      </div>
+    </>
   );
 };
 

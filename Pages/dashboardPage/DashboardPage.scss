@@ -1,12 +1,94 @@
-.dbp__container {
-  justify-content: center;
+.dashboard-page {
+  font-family: "Arial", sans-serif;
+  padding: 2rem;
+  background-color: #f0f0f0;
+  min-height: 100vh;
 }
 
-.body {
-  background-image: url("src/assets/Untitled design.svg");
-  background-repeat: none;
+.dashboard-welcome {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
 }
 
-.dbp__welcome {
-  justify-content: center;
+.dashboard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-canvas {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.create-canvas-input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+}
+
+.create-canvas-button {
+  padding: 0.5rem 1rem;
+  background-color: #3f51b5;
+  color: #fff;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.old-projects-heading {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.canvas-list {
+  display: grid;
+  grid-gap: 1rem;
+}
+
+.canvas-item {
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.canvas-item h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.canvas-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-canvas-button,
+.delete-canvas-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.edit-canvas-button {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.delete-canvas-button {
+  background-color: #f44336;
+  color: #fff;
 }
