@@ -23,11 +23,7 @@ function Header() {
                   About
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/faq">
-                  FAQ
-                </Link>
-              </li>
+
               <li className="nav-item">
                 <Link className="nav-link" to="/future-updates">
                   Future Updates
