@@ -1,12 +1,11 @@
 .dashboard-page {
   font-family: "Arial", sans-serif;
   padding: 2rem;
-  background-color: #f0f0f0;
+
   min-height: 100vh;
 }
 
 .dashboard-welcome {
-  text-align: center;
   font-size: 2rem;
   margin-bottom: 2rem;
   color: #333;
@@ -14,7 +13,6 @@
 
 .dashboard-container {
   max-width: 800px;
-  margin: 0 auto;
   background-color: #fff;
   padding: 2rem;
   border-radius: 10px;
@@ -22,6 +20,7 @@
 }
 
 .create-canvas {
+  color: #333;
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
@@ -31,11 +30,12 @@
   flex: 1;
   padding: 0.5rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid black;
   border-radius: 4px 0 0 4px;
 }
 
 .create-canvas-button {
+  color: #333;
   padding: 0.5rem 1rem;
   background-color: #3f51b5;
   color: #fff;

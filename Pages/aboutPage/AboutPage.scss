@@ -1,102 +1,92 @@
 .about {
-  padding: 2rem;
-  font-family: "Arial", sans-serif;
+  height: 100vh; // Full viewport height
+  overflow-y: auto; // Enable vertical scrolling
+  padding: 20px;
+  background-color: #f4f4f9; // Light background color for contrast
+
+  .hero,
+  .bible-verse,
+  .mission-statement,
+  .contributors {
+    background-color: #ffffff; // White background for cards
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+  }
 
   .hero {
-    text-align: center;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
     h1 {
-      font-size: 2.5rem;
-      color: #333;
-      margin-bottom: 1rem;
+      font-size: 2.5rem; // Larger font size for hero section
+      margin-bottom: 15px;
+      color: #333333; // Dark grey color for text
+      font-family: "Roboto", sans-serif; // Modern font
     }
-
     p {
-      font-size: 1.2rem;
-      color: #555;
-      line-height: 1.6;
+      font-size: 1.25rem;
+      color: #555555; // Medium grey color for text
+      font-family: "Roboto", sans-serif; // Modern font
     }
   }
 
   .bible-verse {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background-color: #fefefe;
-    border-left: 4px solid #3f51b5;
-    border-radius: 5px;
-
+    background-color: #e7f4ea; // Light green background
     span {
+      font-size: 1.5rem;
+      font-weight: bold;
       display: block;
-      font-size: 1.2rem;
-      color: #3f51b5;
-      margin-bottom: 0.5rem;
+      margin-bottom: 10px;
+      color: #2a9d8f; // Dark green color for text
+      font-family: "Roboto", sans-serif; // Modern font
     }
-
     p {
-      font-size: 1rem;
-      color: #666;
-      line-height: 1.5;
+      font-size: 1.2rem;
+      color: #555555; // Medium grey color for text
+      font-family: "Roboto", sans-serif; // Modern font
     }
   }
 
   .mission-statement {
-    margin-top: 2rem;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
+    background-color: #fff6e5; // Light orange background
     h2 {
       font-size: 2rem;
-      color: #333;
-      margin-bottom: 1rem;
+      margin-bottom: 10px;
+      color: #f4a261; // Orange color for text
+      font-family: "Roboto", sans-serif; // Modern font
     }
-
     p {
-      font-size: 1.1rem;
-      color: #555;
-      line-height: 1.6;
+      font-size: 1.2rem;
+      color: #555555; // Medium grey color for text
+      font-family: "Roboto", sans-serif; // Modern font
     }
   }
 
   .contributors {
-    margin-top: 2rem;
-    padding: 2rem;
-    background-color: #fefefe;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
+    background-color: #e1f5fe; // Light blue background
     h3 {
       font-size: 1.8rem;
-      color: #333;
-      margin-bottom: 1rem;
-      text-align: center;
+      margin-bottom: 10px;
+      color: #0077b6; // Blue color for text
+      font-family: "Roboto", sans-serif; // Modern font
     }
-
     ul {
       list-style: none;
       padding: 0;
-
       li {
         display: flex;
         align-items: center;
-        margin-bottom: 1.5rem;
-
+        margin-bottom: 15px;
         .profile-pic {
-          width: 80px;
-          height: 80px;
+          width: 60px;
+          height: 60px;
           border-radius: 50%;
-          margin-right: 1.5rem;
-          object-fit: cover;
+          margin-right: 15px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         div {
           font-size: 1.2rem;
-          color: #555;
+          color: #333333;
+          font-family: "Roboto", sans-serif;
         }
       }
     }

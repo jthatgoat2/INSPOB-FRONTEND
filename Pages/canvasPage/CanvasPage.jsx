@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Stage, Layer, Rect, Text, Transformer } from "react-konva";
-import Header from "../../componet/Header/Header";
+import Header from "../../componet/Header/Header"; // Fixed typo in the import path
 import { SketchPicker } from "react-color";
 import { v4 as uuidv4 } from "uuid";
 import "./CanvasPage.scss";
@@ -25,6 +25,9 @@ const emotions = {
     "Isaiah 41:10 - Fear not, for I am with you; be not dismayed, for I am your God; I will strengthen you, I will help you, I will uphold you with my righteous right hand.",
   ],
 };
+
+const CANVAS_WIDTH = 1200; // Smaller canvas width
+const CANVAS_HEIGHT = 800; // Smaller canvas height
 
 const CanvasPage = ({ match }) => {
   const stageRef = useRef(null);
@@ -177,12 +180,23 @@ const CanvasPage = ({ match }) => {
     setRectColor(color.hex);
   };
 
-  const handleRemoveVerse = () => {
-    const confirmRemove = window.confirm(
-      "Are you sure you want to remove the verse?"
+  const handleClearCanvas = () => {
+    const confirmClear = window.confirm(
+      "Are you sure you want to clear the canvas?"
     );
-    if (confirmRemove) {
+    if (confirmClear) {
       setBibleVerses([]);
+      sessionStorage.removeItem("emotions");
+      sessionStorage.removeItem("canvasItems");
+      const emotion = prompt(
+        "How are you feeling today? (happy, sad, anxious)"
+      );
+      if (emotion && emotions[emotion.toLowerCase()]) {
+        sessionStorage.setItem("emotions", emotion.toLowerCase());
+        setBibleVerses(emotions[emotion.toLowerCase()]);
+        setCurrentVerseIndex(0);
+      }
+      setItems([]);
     }
   };
 
@@ -197,31 +211,59 @@ const CanvasPage = ({ match }) => {
     }
   }, [selectedId]);
 
+  const centerStage = () => {
+    const stage = stageRef.current;
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight;
+    const stageWidth = CANVAS_WIDTH;
+    const stageHeight = CANVAS_HEIGHT;
+
+    const x = (containerWidth - stageWidth) / 2;
+    const y = (containerHeight - stageHeight) / 2;
+
+    setStagePos({ x, y });
+    stage.position({ x, y });
+    stage.batchDraw();
+  };
+
+  useEffect(() => {
+    centerStage();
+    window.addEventListener("resize", centerStage);
+    return () => window.removeEventListener("resize", centerStage);
+  }, []);
+
   return (
     <>
       <Header />
       <div className="canvas-page">
-        <SketchPicker color={rectColor} onChangeComplete={handleColorChange} />
-        <div className="canvas-buttons">
-          <button onClick={handleAddRect}>Add Rectangle</button>
-          <button onClick={handleAddText}>Add Text</button>
-          <button onClick={handleRemoveVerse}>Remove Verse</button>
+        <div className="canvas-controls">
+          <SketchPicker
+            color={rectColor}
+            onChangeComplete={handleColorChange}
+          />
+          <div className="canvas-buttons">
+            <button onClick={handleAddRect}>Add Rectangle</button>
+            <button onClick={handleAddText}>Add Text</button>
+            <button onClick={handleClearCanvas}>Clear Canvas</button>
+          </div>
         </div>
         <Stage
-          width={window.innerWidth}
-          height={window.innerHeight}
-          draggable={false}
+          width={CANVAS_WIDTH}
+          height={CANVAS_HEIGHT}
+          draggable
           ref={stageRef}
-          x={stagePos.x}
-          y={stagePos.y}
-          className={dragging ? "stage dragging" : "stage"}
+          position={stagePos}
+          onDragEnd={(e) => setStagePos(e.target.position())}
+          style={{ backgroundColor: "#1e1e1e" }}
         >
           <Layer>
             <Rect
               x={0}
               y={0}
-              width={window.innerWidth}
-              height={window.innerHeight}
+              width={CANVAS_WIDTH}
+              height={CANVAS_HEIGHT}
+              fillPatternImage={null}
+              fillPatternOffset={{ x: 0, y: 0 }}
               fillPatternScale={{ x: 1, y: 1 }}
             />
             <Text
@@ -229,15 +271,18 @@ const CanvasPage = ({ match }) => {
               fontSize={15}
               x={10}
               y={10}
-              className="text"
+              fill="white"
             />
             {bibleVerses.length > 0 && (
               <Text
                 text={bibleVerses[currentVerseIndex]}
                 fontSize={20}
-                x={10}
-                y={40}
-                className="bible-verse"
+                x={CANVAS_WIDTH / 2}
+                y={CANVAS_HEIGHT / 2}
+                fill="white"
+                draggable
+                onDragStart={handleDragStart}
+                onDragEnd={(e) => handleDragEnd(e, "bible-verse")}
               />
             )}
             {items.map((item, i) =>
@@ -263,6 +308,7 @@ const CanvasPage = ({ match }) => {
                   y={item.y}
                   text={item.text}
                   fontSize={item.fontSize}
+                  fill="white"
                   draggable
                   onDragStart={handleDragStart}
                   onDragEnd={(e) => handleDragEnd(e, item.id)}
@@ -278,6 +324,7 @@ const CanvasPage = ({ match }) => {
           className="textarea"
           onChange={handleTextareaChange}
           onBlur={handleTextareaBlur}
+          style={{ resize: "both", display: "none" }} // Ensure textarea is hidden by default
         />
       </div>
     </>

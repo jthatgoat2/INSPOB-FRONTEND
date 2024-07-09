@@ -38,7 +38,7 @@ function AboutPage() {
           <ul>
             <li>
               <img
-                src="/images/profile-pic.jpg" // Adjust the path according to your project structure
+                src="/src/assets/profile.jpeg"
                 alt="Johndy Hamilton"
                 className="profile-pic"
               />
@@ -48,7 +48,7 @@ function AboutPage() {
             </li>
             <li>
               <img
-                src="/images/contributor-pic.jpg" // Adjust the path according to your project structure
+                src="src/assets/profile.jpeg"
                 alt="Ruth-Keisha Etienne"
                 className="profile-pic"
               />
